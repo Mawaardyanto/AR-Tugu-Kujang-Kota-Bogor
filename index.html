@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<title>LBAR - Tugu Kujang Bogor</title>
+		<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+		<script
+			type="text/javascript"
+			src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"
+		></script>
+		<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+			}
+			#scene {
+				width: 90%;
+				height: 90%;
+				overflow: hidden;
+			}
+		</style>
+		<script>
+			AFRAME.registerComponent("footage-bogor-video", {
+				init: function () {
+					const footageBogorVideo = document.getElementById("footageBogor");
+					this.el.addEventListener("click", function () {
+						const isVideoPaused = footageBogorVideo.paused;
+						isVideoPaused ? footageBogorVideo.play() : footageBogorVideo.pause();
+					});
+				},
+			});
+		</script>
+	</head>
+	<body>
+		<a-scene
+			id="scene"
+			vr-mode-ui="enabled: false"
+			arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
+			renderer="antialias: true; alpha: true"
+		>
+			<a-camera gps-camera="gpsMinDistance:25" rotation-reader>
+				<a-cursor></a-cursor>
+			</a-camera>
+			<a-assets>
+				<video id="footageBogor" loop crossorigin="anonymous" webkit-playsinline>
+					<source src="./src/videos/footage-bogor.mp4" type="video/mp4" />
+				</video>
+				<a-asset-item
+					id="meseumZoologi"
+					src="./src/models/meseum-zoologi.glb"
+				></a-asset-item>
+				<a-asset-item
+					id="bdsTuguKujang"
+					src="./src/models/bds-tugu-kujang.glb"
+				></a-asset-item>
+				<a-asset-item
+					id="tuguKujang"
+					src="./src/models/tugu-kujang.glb"
+				></a-asset-item>
+			</a-assets>
+			<a-video
+				footage-bogor-video
+				src="#footageBogor"
+				width="5"
+				height="5"
+				scale="25 25 25"
+				look-at="[gps-camera]"
+				position="0 150 0"
+				gps-entity-place="latitude:-6.6014370306476255;longitude:106.80507379518764"
+			></a-video>
+			<a-gltf-model
+				src="#meseumZoologi"
+				position="0 0 -15"
+				look-at="[gps-camera]"
+				gps-entity-place="latitude:-6.603353;longitude:106.796876"
+			></a-gltf-model>
+			<a-gltf-model
+				src="#bdsTuguKujang"
+				position="0 0 -15"
+				look-at="[gps-camera]"
+				gps-entity-place="latitude:-6.6014370306476255;longitude: 106.80507379518764"
+			></a-gltf-model>
+			<a-gltf-model
+				src="#tuguKujang"
+				position="0 50 -15"
+				look-at="[gps-camera]"
+				gps-entity-place="latitude:-6.6014370306476255;longitude:106.80507379518764"
+			></a-gltf-model>
+		</a-scene>
+	</body>
+</html>
